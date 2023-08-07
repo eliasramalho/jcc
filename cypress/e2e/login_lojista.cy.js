@@ -20,7 +20,7 @@ describe('login lojista', () => {
 
         })
 
-        it.only('codigo invalido', () => {
+        it('codigo invalido', () => {
             const msgErro = 'div:contains("E-mail e/ou senha estão inválidos. Verifique e tente novamente.")'
             cy.get('input[id=code]').type('02363/*')
             cy.get('input[id=password]').type('teste123')
