@@ -28,6 +28,7 @@ describe('home lojista', () => {
     })
       cy.visit(Cypress.config('baseUrl2'));
       cy.visit('/')
+      cy.wait(2000)
       cy.title().should('eq', 'Happy Mais')
   
   })

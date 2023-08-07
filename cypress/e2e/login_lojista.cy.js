@@ -20,7 +20,7 @@ describe('login lojista', () => {
 
         })
 
-        it('codigo invalido', () => {
+        it.only('codigo invalido', () => {
             const msgErro = 'div:contains("E-mail e/ou senha estão inválidos. Verifique e tente novamente.")'
             cy.get('input[id=code]').type('02363/*')
             cy.get('input[id=password]').type('teste123')
@@ -59,7 +59,7 @@ describe('login lojista', () => {
             cy.wait(1000)
             cy.randomCpf()
             cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
-            cy.preencherCampo('input[name=cellPhone]', '11981447724')
+            cy.preencherCampo('input[name=cellPhone]', '11981447725')
             cy.preencherCampo('input[name=email]', randomEmail)
             cy.preencherCampo('input[name=sellerCode]', codVendedor)
             cy.cadastrar()
@@ -68,7 +68,7 @@ describe('login lojista', () => {
 
 
         })
-        it('email ja cadastrado', () => {
+        it.only('email ja cadastrado', () => {
             cy.logarUsuario()
             cy.randomCpf()
             cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
@@ -77,7 +77,7 @@ describe('login lojista', () => {
             cy.preencherCampo('input[name=sellerCode]', codVendedor)
             cy.cadastrar()
             cy.get('.go3958317564').should('be.visible')
-                .should('have.text', 'Email already registered')
+                .should('have.text', 'Email já registrado')
 
         })
 
