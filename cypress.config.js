@@ -1,6 +1,7 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
+  projectId: "9ar79k",
   e2e: {
     baseUrl: 'https://jcc-qa.rihappy.com.br/login',
     baseUrl2: 'https://jcc-qa.rihappy.com.br/',
