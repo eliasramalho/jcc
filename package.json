@@ -1,0 +1,13 @@
+{
+  "name": "jcc-lojista",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "elias ramalho",
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "12.2.0"
+  },
+  "dependencies": {
+    "faker-br": "^0.4.1"
+  }
+}
