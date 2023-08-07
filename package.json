@@ -6,7 +6,7 @@
   "license": "MIT",
   "devDependencies": {
     "cypress": "12.2.0",
-    "cypress-tesults-reporter": "1.4.1"
+    "cypress-tesults-reporter": "1.2.0"
   },
   "dependencies": {
     "faker-br": "^0.4.1"
