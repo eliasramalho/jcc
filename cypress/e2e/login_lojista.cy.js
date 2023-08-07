@@ -68,7 +68,7 @@ describe('login lojista', () => {
 
 
         })
-        it.only('email ja cadastrado', () => {
+        it('email ja cadastrado', () => {
             cy.logarUsuario()
             cy.randomCpf()
             cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
