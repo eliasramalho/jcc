@@ -74,6 +74,18 @@ describe('validar campos', () => {
 
         })
 
+        it('Email ja cadastrado', ()=>{
+            cy.cpfAleatorio()
+            cy.wait(1000)
+            cy.preencherCampo('input[name="fullName"]', name + ' ' + name2)
+            cy.preencherCampo('input[name="cellPhone"]', '11998877665')
+            cy.preencherCampo('input[name="email"]', 'vanefe9502@kkoup.com')
+            cy.cadastrar()
+            cy.get('.go3958317564').should('be.visible')
+            .should('have.text', 'Email já registrado')
+
+        })
+
 
     })
 

@@ -20,7 +20,7 @@ describe('login lojista', () => {
 
         })
 
-        it.only('codigo invalido', () => {
+        it('codigo invalido', () => {
             const msgErro = 'div:contains("E-mail e/ou senha estão inválidos. Verifique e tente novamente.")'
             cy.get('input[id=code]').type('02363/*')
             cy.get('input[id=password]').type('teste123')
@@ -59,20 +59,21 @@ describe('login lojista', () => {
             cy.wait(1000)
             cy.randomCpf()
             cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
-            cy.preencherCampo('input[name=cellPhone]', '11981447725')
+            cy.preencherCampo('input[name=cellPhone]', '11981337725')
             cy.preencherCampo('input[name=email]', randomEmail)
             cy.preencherCampo('input[name=sellerCode]', codVendedor)
             cy.cadastrar()
+            cy.wait(1000)
             cy.get(msgEsperada).should('be.visible')
                 .should('have.text', msgDesejada)
 
 
         })
-        it.only('email ja cadastrado', () => {
+        it('email ja cadastrado', () => {
             cy.logarUsuario()
             cy.randomCpf()
             cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
-            cy.preencherCampo('input[name=cellPhone]', '11981447724')
+            cy.preencherCampo('input[name=cellPhone]', '11995447769')
             cy.preencherCampo('input[name=email]', 'vanefe9502@kkoup.com')
             cy.preencherCampo('input[name=sellerCode]', codVendedor)
             cy.cadastrar()
@@ -189,6 +190,15 @@ describe('login lojista', () => {
 
     })
     context('usuario do Happy mais', () => {
+
+        it('editar crianca nao cadastrada', () => {
+            const msgErro = 'div:contains("Você não ppssui crianças cadastradas.")';
+            cy.cpfCadastrado()
+            cy.get('button[class="sc-fUnMCh kMHkxG undefined purple outline"]').click()
+            cy.get('.go3958317564').should('have.text', 'Você não possui crianças cadastradas.')
+
+        })
+
         it('adicionar crianca', () => {
             const addSucesso = 'div:contains("Pequeno adicionado com sucesso.")';
             cy.cpfCadastrado()
@@ -242,7 +252,7 @@ describe('login lojista', () => {
             cy.cpfCadastrado()
             cy.editarCrianca()
             cy.get('#react-select-3-input').click()
-            cy.get('#react-select-3-option-10').click()
+            cy.get('#react-select-3-option-6').click()
             cy.salvar()
             cy.get('.go3958317564')
                 .should('have.text', 'Pequeno alterado com sucesso.')
@@ -252,7 +262,7 @@ describe('login lojista', () => {
             cy.cpfCadastrado()
             cy.editarCrianca()
             cy.get('#react-select-4-input').click()
-            cy.get('#react-select-4-option-5').should('be.visible').click()
+            cy.get('#react-select-4-option-6').should('be.visible').click()
             cy.salvar()
             cy.get('.go3958317564')
                 .should('have.text', 'Pequeno alterado com sucesso.')
@@ -267,7 +277,7 @@ describe('login lojista', () => {
 
         })
 
-       
+
 
     })
 
