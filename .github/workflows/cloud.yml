@@ -50,7 +50,7 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   cypress-firefox-tests:
-    needs: cypress-electron-tests
+    needs: cypress-chrome-tests
     runs-on: ubuntu-latest
     container:
       image: cypress/browsers:node18.12.0-chrome103-ff107
