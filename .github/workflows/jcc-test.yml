@@ -38,7 +38,7 @@ jobs:
     env:
       TARGET_TOKEN_CHROME: ${{ secrets.TARGET_TOKEN_CHROME }}
   cypress-firefox-tests:
-    needs: cypress-electron-tests
+    needs: cypress-chrome-tests
     runs-on: ubuntu-latest
     container:
       image: cypress/browsers:node18.12.0-chrome103-ff107
