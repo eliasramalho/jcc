@@ -2,7 +2,6 @@
 import faker from 'faker-br';
 
 
-
 describe('validar campos', () => {
     const randomCpf = faker.br.cpf();
     var name = faker.name.firstName();
@@ -19,17 +18,13 @@ describe('validar campos', () => {
             const msgCelObgt = 'span:contains("O celular é obrigatório.")';
             const msgEmailObgt = 'span:contains("O e-mail é obrigatório.")';
             cy.cpfAleatorio()
-            cy.cadastrar()
-
+            cy.get('button[name=cadastrar]').click()
             cy.get(msgNomeObgt).should('be.visible')
                 .should('have.text', 'O nome completo é obrigatório')
-
             cy.get(msgCelObgt).should('be.visible')
                 .should('have.text', 'O celular é obrigatório.')
-
             cy.get(msgEmailObgt).should('be.visible')
                 .should('have.text', 'O e-mail é obrigatório.')
-
         })
 
         it('telefone invalido', () => {
@@ -39,8 +34,7 @@ describe('validar campos', () => {
             cy.preencherCampo('input[name="fullName"]', name + ' ' + name2)
             cy.preencherCampo('input[name="cellPhone"]', '123456')
             cy.preencherCampo('input[name="email"]', randomEmail)
-            cy.cadastrar()
-
+            cy.get('button[name=cadastrar]').click()
             cy.get(msgCelInv).should('be.visible')
                 .should('have.text', 'Número de celular inválido.')
         })
@@ -52,11 +46,9 @@ describe('validar campos', () => {
             cy.preencherCampo('input[name="fullName"]', name + ' ' + name2)
             cy.preencherCampo('input[name="cellPhone"]', '11982445566')
             cy.preencherCampo('input[name="email"]', '12e3.com')
-            cy.cadastrar()
-
+            cy.get('button[name=cadastrar]').click()
             cy.get(msgEmailInvl).should('be.visible')
                 .should('have.text', 'Digite um e-mail válido')
-
         })
 
         it('dados validos', () => {
@@ -68,10 +60,9 @@ describe('validar campos', () => {
             cy.preencherCampo('input[name="fullName"]', name + ' ' + name2)
             cy.preencherCampo('input[name="cellPhone"]', '11998877665')
             cy.preencherCampo('input[name="email"]', randomEmail)
-            cy.cadastrar()
+            cy.get('button[name=cadastrar]').should('be.visible').click()
             cy.get(msgEsperada).should('be.visible')
-                .should('have.text', msgDesejada)
-
+              .should('have.text', msgDesejada)
         })
 
         it('Email ja cadastrado', ()=>{
@@ -79,13 +70,11 @@ describe('validar campos', () => {
             cy.wait(1000)
             cy.preencherCampo('input[name="fullName"]', name + ' ' + name2)
             cy.preencherCampo('input[name="cellPhone"]', '11998877665')
-            cy.preencherCampo('input[name="email"]', 'vanefe9502@kkoup.com')
-            cy.cadastrar()
+            cy.preencherCampo('input[name="email"]', 'bocodi7193@wlmycn.com')
+            cy.get('button[name=cadastrar]').click()
             cy.get('.go3958317564').should('be.visible')
-            .should('have.text', 'Email já registrado')
-
+            .should('have.text', 'Erro ao cadastrar')
         })
-
 
     })
 
@@ -98,7 +87,7 @@ describe('validar campos', () => {
             cy.campoCpf()
                 .type(cpfCadastrado).type('{enter}')
             cy.get('.description')
-                .should('have.text', 'Insira o token enviado:')
+                .should('have.text', 'Para validar seu acesso, insira o token enviado por sms e e-mail:')
             cy.request({
                 url: '/'
             }).then(response => {
@@ -111,8 +100,8 @@ describe('validar campos', () => {
                 .type(123456).type('{enter}')
             cy.get(msgCpfInvalido).should('be.visible')
                 .should('have.text', 'CPF invalido');
-
         })
+
         it('cpf de usuario nao cadastrado', () => {
             const msgDesejada = 'p:contains("Ainda não temos o seu cadastro, mas você pode fazê-lo agora mesmo.")' +
                 ':contains("É grátis, rápido e fácil!")';
@@ -122,6 +111,15 @@ describe('validar campos', () => {
                 .should('have.text', 'Ainda não temos o seu cadastro, mas você pode fazê-lo agora mesmo. É grátis, rápido e fácil!')
 
 
+        })
+
+        it('login completo', ()=> {
+            const msgDesejada = 'p:contains("Ainda não temos o seu cadastro, mas você pode fazê-lo agora mesmo.")' +
+                ':contains("É grátis, rápido e fácil!")';
+            cy.cpfAleatorio()
+            cy.wait(1000)
+            cy.get(msgDesejada).should('be.visible')
+                .should('have.text', 'Ainda não temos o seu cadastro, mas você pode fazê-lo agora mesmo. É grátis, rápido e fácil!')
         })
 
 

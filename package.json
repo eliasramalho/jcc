@@ -5,7 +5,9 @@
   "author": "elias ramalho",
   "license": "MIT",
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "cypress": "12.2.0",
+    "cypress-mailosaur": "^2.13.0",
     "cypress-tesults-reporter": "1.2.0"
   },
   "dependencies": {

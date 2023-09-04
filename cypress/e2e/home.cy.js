@@ -1,3 +1,5 @@
+import { faker} from '@faker-js/faker/locale/en';
+
 describe('home lojista', () => {
   beforeEach(()=>{
     cy.switchBaseUrl(Cypress.config('baseUrl'))
@@ -10,7 +12,7 @@ describe('home lojista', () => {
   })
     cy.visit('/')
     cy.wait(2000)
-    cy.title().should('eq', 'Happy Mais')
+    cy.title().should('eq', 'Super Cliente')
   })
 
   })
@@ -29,9 +31,8 @@ describe('home lojista', () => {
       cy.visit(Cypress.config('baseUrl2'));
       cy.visit('/')
       cy.wait(2000)
-      cy.title().should('eq', 'Happy Mais')
-  
-  })
-
-  })
-  
+      cy.title().should('eq', 'Super Cliente')
+    })
+   
+})
+    
