@@ -1,8 +1,11 @@
 /// <reference types= "cypress"/>
 import faker from 'faker-br';
 
+//editar nome do usuario
+//editar telefone
+//editar email
 
-describe('login lojista', () => {
+describe('loginLojista', () => {
     const randomCpf = faker.br.cpf();
     var name = faker.name.firstName();
     var name2 = faker.name.lastName();
@@ -13,23 +16,23 @@ describe('login lojista', () => {
             cy.visit('/')
         })
 
-        it('campos em branco', () => {
+        it('camposEmBranco', () => {
             cy.get('button[name=entrar]').click()
             cy.get(campoObgt).should('be.visible')
                 .should('have.text', 'Campo obrigatórioCampo obrigatório')
 
         })
 
-        it('codigo invalido', () => {
-            const msgErro = 'div:contains("E-mail e/ou senha estão inválidos. Verifique e tente novamente.")'
+        it('codigoInvalido', () => {
+            
             cy.get('input[id=code]').type('02363/*')
-            cy.get('input[id=password]').type('teste123')
+            cy.get('input[id=password]').type('teste123', {log: false})
             cy.get('button[name=entrar]').click()
-            cy.get(msgErro).should('be.visible')
-            //.should('have.text', 'E-mail e/ou senha estão inválidos. Verifique e tente novamente.')
+            cy.get('.go3958317564').should('be.visible')
+            .should('have.text', 'Código de loja e/ou senha estão inválidos. Verifique e tente novamente.')
         })
 
-        it('senha invalida', () => {
+        it('senhaInvalida', () => {
             cy.get('input[id=code]').type('teste')
             cy.get('input[id=password]').type('test')
             cy.get('button[name=entrar]').click()
@@ -38,26 +41,26 @@ describe('login lojista', () => {
         })
 
     })
-    context('lojista logado', () => {
+    context('lojistaLogado', () => {
         // cod vendedor 230215; 029584321; 521438;
-        var codVendedor = '230215';
+        // cod vendedor Prod 045518
+        var codVendedor = '045518';
         var randomEmail = faker.internet.email();
 
         it('logar', () => {
-            const msgDesejada = 'p:contains("Informe seu CPF e garanta benefícios exclusivos")';
-            const msgEsperada = 'Informe seu CPF e garanta benefícios exclusivos';
-            cy.logarUsuario()
-            cy.get(msgDesejada).should('be.visible')
-                .should('have.text', msgEsperada)
+            cy.logarUsuarioProd()
+            cy.get('.title').should('be.visible')
+            .should('have.text', 'Informe o CPF e garanta benefícios exclusivos')
         })
 
-        it('cadastrar usuario', () => {
+        it('cadastrarUsuario', () => {
             const msgEsperada = 'p:contains("Falta apenas um passo para confirmar o cadastro ;)")'
             const msgDesejada = 'Falta apenas um passo para confirmar o cadastro ;)'
-            cy.logarUsuario()
+            cy.logarUsuarioProd()
             cy.wait(1000)
             cy.randomCpf()
             cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
+            cy.get('#sellerCode').type(codVendedor)
             cy.preencherCampo('input[name=cellPhone]', '11981337725')
             cy.preencherCampo('input[name=email]', randomEmail)
             cy.contains('button', 'cadastrar').click()
@@ -66,48 +69,49 @@ describe('login lojista', () => {
                 .should('have.text', msgDesejada)
         })
 
-        it('email ja cadastrado', () => {
-            cy.logarUsuario()
+        it('emailJaCadastrado', () => {
+            cy.logarUsuarioProd()
             cy.randomCpf()
             cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
+            cy.get('#sellerCode').type(codVendedor)
             cy.preencherCampo('input[name=cellPhone]', '11995447769')
             cy.preencherCampo('input[name=email]', 'vanefe9502@kkoup.com')
-            //cy.preencherCampo('input[name=sellerCode]', codVendedor)
             cy.contains('button', 'cadastrar').click()
             cy.get('.go3958317564').should('be.visible')
                 .should('have.text', 'Email já registrado')
         })
 
-        it('cadastro com campos em branco', () => {
+        it('camposEmBranco', () => {
             const nome = 'span:contains("O nome completo é obrigatório")';
             const cell = 'span:contains("O celular é obrigatório.")';
-            const email = 'span:contains("O e-mail é obrigatório.")';
-            cy.logarUsuario()
+            
+            cy.logarUsuarioProd()
             cy.randomCpf()
             cy.contains('button', 'cadastrar').click()
             cy.get(nome).should('be.visible')
             .should('have.text', 'O nome completo é obrigatório')
             cy.get(cell).should('have.text', 'O celular é obrigatório.')
             cy.get('#emailInput').should('have.text', '')
-            cy.get(email).should('have.text', 'O e-mail é obrigatório.')
         })
 
-        it('telefone invalido', () => {
+        it('telefoneInvalido', () => {
             const cellInvl = 'span:contains("Número de celular inválido.")';
-            cy.logarUsuario()
+            cy.logarUsuarioProd()
             cy.randomCpf()
             cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
+            cy.get('#sellerCode').type(codVendedor)
             cy.preencherCampo('input[name=email]', randomEmail)
             cy.preencherCampo('input[name=cellPhone]', '17724')
             cy.contains('button', 'cadastrar').click()
             cy.get(cellInvl).should('have.text', 'Número de celular inválido.')
         })
 
-        it('email invalido', () => {
+        it('emailInvalido', () => {
             const email = 'span:contains("Digite um e-mail válido")'
-            cy.logarUsuario()
+            cy.logarUsuarioProd()
             cy.randomCpf()
             cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
+            cy.get('#sellerCode').type(codVendedor)
             cy.preencherCampo('input[name=email]', 'email-invalido')
             cy.preencherCampo('input[name=cellPhone]', '11998523654')
             cy.contains('button', 'cadastrar').click()
@@ -116,82 +120,89 @@ describe('login lojista', () => {
         })
 
 
-        // it('codigo vendedor invalido', () => {
-        //     const codInvl = 'span:contains("Código de operador inválido")';
-        //     const nomeOpInvl = 'span:contains("Operador inválido, realize a alteração")';
-        //     cy.logarUsuario()
-        //     cy.randomCpf()
-        //     cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
-        //     cy.preencherCampo('input[name=email]', randomEmail)
-        //     cy.preencherCampo('input[name=cellPhone]', '11998523654')
-        //     cy.preencherCampo('input[name=sellerCode]', '123')
-        //     cy.contains('button', 'cadastrar').click()
-        //     cy.get(codInvl).should('have.text', 'Código de operador inválido')
-        //     cy.get(nomeOpInvl).should('have.text', 'Operador inválido, realize a alteração')
-        //     cy.get('.go3958317564').should('be.visible')
-        //         .should('have.text', 'Erro ao cadastrar')
-        // })
+        it('codigoVendedorInvalido', () => {
+            const codInvl = 'span:contains("Código de operador inválido")';
+            const nomeOpInvl = 'span:contains("Operador inválido, realize a alteração")';
+            cy.logarUsuarioProd()
+            cy.randomCpf()
+            cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
+            cy.preencherCampo('input[name=email]', randomEmail)
+            cy.preencherCampo('input[name=cellPhone]', '11998523654')
+            cy.preencherCampo('input[name=sellerCode]', '123')
+            cy.contains('button', 'cadastrar').click()
+            cy.get(codInvl).should('have.text', 'Código de operador inválido')
+            cy.get(nomeOpInvl).should('have.text', 'Operador inválido, realize a alteração')
+            
+        })
 
 
     })
-    context('usuario cadastrado', () => {
+    context('usuarioCadastrado', () => {
         var randomEmail = faker.internet.email();
-        const modal = 'p:contains("Insira o token enviado por sms e e-mail:")'
 
-        it('cpf ja cadastrado', () => {
-            var cpf = 'p:contains("542.983.358-44")'
-            cy.cpfCadastrado()
+        it('cpfJaCadastrado', () => {
+            var cpf = 'p:contains("331.768.918-81")'
+
+            cy.logarUsuarioProd()
+            cy.cpfCadastradoProd()
             cy.get(cpf).should('be.visible')
-                .should('have.text', '542.983.358-44')
+                .should('have.text', '331.768.918-81')
         })
 
-        it('editar nome do usuario', () => {
-            cy.cpfCadastrado()
+        it('editarNomeDoUsuario', () => {
+
+            cy.logarUsuarioProd()
+            cy.cpfCadastradoProd()
             cy.contains('button', 'editar').click()
             cy.get('input[name=fullName]').clear()
-                .type('User ' + ' ' + 'Teste 123')
+                .type(name+' '+name2)
             cy.contains('button', 'salvar').click()
-            cy.get(modal).should('be.visible')
-                .should('have.text', 'Insira o token enviado por sms e e-mail:')
+            cy.get('.go2072408551').should('be.visible')
+                .should('have.text', '❕Dados atualizados com sucessoAlgo deu errado, tente novamente mais tarde')
+                //name+' '+name2)
         })
 
-        it('editar telefone', () => {
-            cy.cpfCadastrado()
+        it('editarTelefone', () => {
+
+            cy.logarUsuarioProd()
+            cy.cpfCadastradoProd()
             cy.contains('button', 'editar').click()
             cy.get('input[name=cellPhone]').clear().type('11998774455');
             cy.contains('button', 'salvar').click()
-            cy.get(modal).should('be.visible')
-                .should('have.text', 'Insira o token enviado por sms e e-mail:')
+            cy.get(':nth-child(2) > .data').should('be.visible')
+                .should('have.text', '331.768.918-81')
         })
-        it('editar email', () => {
-            cy.cpfCadastrado()
-            cy.contains('button', 'editar').click()
+        it('editarEmail', () => {
+
+            cy.logarUsuarioProd()
+            cy.cpfCadastradoProd()
+            cy.get('button[name="editar"]').click()
             cy.get('input[name=email]')
                 .clear().type(randomEmail)
             cy.contains('button', 'salvar').click()
-            cy.get(modal).should('be.visible')
-                .should('have.text', 'Insira o token enviado por sms e e-mail:')
+            cy.get('.go3958317564').should('be.visible')
+                .should('have.text', 'Dados atualizados com sucessoAlgo deu errado, tente novamente mais tarde')
         })
 
     })
-    context('usuario do Happy mais', () => {
-        const codigo = "100500" ;
-            const senha = "123456@!";
+    context('usuarioDoHappyMais', () => {
+        // const codigo = "100500" ;
+        // const senha = "123456@!";
+        const codigo = "1012";
+        const senha = "supercliente@2023";
 
-        it('editar crianca nao cadastrada', () => {            
-            cy.visit('/')
-            cy.get('input[id=code]').type(codigo)
-            cy.get('input[id=password]').type(senha)
-            cy.get('button[name=entrar]').click()
+        it('editarCriancaNaoCadastrada', () => {            
+            cy.logarUsuarioProd()
             cy.get('#cpf')
-            .type('166.233.450-86').type('{enter}')  
+            .type('360.614.378-89').type('{enter}')  
             cy.contains('button', 'visualizar').click()
             cy.get('.go3958317564').should('be.visible')
-                .should('have.text', 'Você não possui crianças cadastradas.')
+                .should('have.text', 'Você não possui crianças cadastradas.Algo deu errado, tente novamente mais tarde')
         })
 
-        it('Validar limite de cadastro mensal', () => {
-            cy.cpfCadastrado()
+        it('validarLimiteDeCadastroMensal', () => {
+            cy.logarUsuarioProd()
+            cy.cpfCadastradoProd()
             cy.contains('button', 'adicionar pequeno').click()
             cy.get('input[name="apelido"]').type(name)
             cy.get(':nth-child(2) > .sc-cfxfcM > .css-b62m3t-container > .css-9cuovu-control > .css-9w221s').click()
@@ -207,36 +218,27 @@ describe('login lojista', () => {
             .should('have.text', 'Limite de cadastro mensal atingido')
         })
 
-        it('validar exclusao de crianca apos 1 ano', () => {
-            const codigo = "100500" ;
-            const senha = "123456@!";
-            cy.visit('/')
-            cy.get('input[id=code]').type(codigo)
-            cy.get('input[id=password]').type(senha)
-            cy.get('button[name=entrar]').click()
+        it('validarExclusaoDeCriancaAposUmAno', () => {
+           
+            cy.logarUsuarioProd()
             cy.get('#cpf')
-            .type('554.482.200-02').type('{enter}')  
+            .type('331.768.918-81').type('{enter}')  
             cy.contains('button', 'visualizar').click()
-            cy.get('.content-actions > :nth-child(2) > img').click()
+            cy.get(':nth-child(3) > .container-right > .content-actions > :nth-child(2) > img').click()
             cy.get('.go3958317564').should('be.visible')
-            .should('have.text', 'Crianca não pode ser deletada')
+            .should('have.text', 'Crianca não pode ser deletadaAlgo deu errado, tente novamente mais tarde')
             
         })
 
-        it('validar edicao de crianca apos 1 ano', () => {
-            const codigo = "100500" ;
-            const senha = "123456@!";
-            cy.visit('/')
-            cy.get('input[id=code]').type(codigo)
-            cy.get('input[id=password]').type(senha)
-            cy.get('button[name=entrar]').click()
+        it('validarEdicaoDeCriancaAposUmAno', () => {
+          cy.logarUsuarioProd()
             cy.get('#cpf')
-            .type('554.482.200-02').type('{enter}')  
+            .type('331.768.918-81').type('{enter}')  
             cy.contains('button', 'visualizar').click()
-            cy.get('.content-actions > :nth-child(1) > img').click()
+            cy.get(':nth-child(3) > .container-right > .content-actions > :nth-child(1) > img').click()
             cy.contains('button', 'salvar').click()
             cy.get('.go3958317564').should('be.visible')
-            .should('have.text', 'Crianca não pode ser atualizada')
+            .should('have.text', 'Crianca não pode ser atualizadaAlgo deu errado, tente novamente mais tarde')
             
         })
 

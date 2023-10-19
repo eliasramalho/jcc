@@ -77,5 +77,31 @@ Cypress.Commands.add('cpfAleatorio', ()=>{
     //Preenche o campo com um cpf aleatorio e realiza o evento de pressionar o botao enter
     .type(randomCpf).type('{enter}')
 })
+
+//Comando para logar usuario PRDO
+Cypress.Commands.add('logarUsuarioProd', ()=>{
+    //100500 senha 123456@!
+    const codigo = "1112" ;
+    const senha = "supercliente@2023";
+    cy.visit('/')
+    //Localiza e preenche o campo
+    cy.get('input[id=code]').type(codigo)
+    cy.get('input[id=password]').type(senha)
+    cy.get('button[name=entrar]').click()
+})
+
+//Comando para preencher CPF ja cadastrado no sistema PROD
+Cypress.Commands.add('cpfCadastradoProd', ()=>{
+    //331.768.918-81
+    //867.251.368-18
+    const codigo = "1112";
+    const senha = "supercliente@2023";
+    cy.visit('/')
+    cy.get('input[id=code]').type(codigo)
+    cy.get('input[id=password]').type(senha)
+    cy.get('button[name=entrar]').click()
+    cy.get('#cpf')
+    .type('331.768.918-81').type('{enter}')   
+})
   
 

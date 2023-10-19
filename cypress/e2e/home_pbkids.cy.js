@@ -2,7 +2,7 @@ import { faker} from '@faker-js/faker/locale/en';
 
 describe('home lojista', () => {
   beforeEach(()=>{
-    cy.switchBaseUrl(Cypress.config('baseUrl'))
+    cy.switchBaseUrl(Cypress.config('baseUrl3'))
   })
   it('web deve estar online', () => {
     cy.request({
@@ -12,14 +12,14 @@ describe('home lojista', () => {
   })
     cy.visit('/')
     cy.wait(2000)
-    cy.title().should('eq', 'Super Cliente')
+    cy.title().should('eq', 'PB Club')
   })
 
   })
 
   describe('home cliente', ()=>{
     beforeEach(()=>{
-      cy.switchBaseUrl(Cypress.config('baseUrl2'))
+      cy.switchBaseUrl(Cypress.config('baseUrl4'))
     })
   
     it('web online', ()=>{
@@ -28,10 +28,10 @@ describe('home lojista', () => {
     }).then(response =>{
         expect(response.status).to.eq(200)
     })
-      cy.visit(Cypress.config('baseUrl2'));
+      cy.visit(Cypress.config('baseUrl4'));
       cy.visit('/')
       cy.wait(2000)
-      cy.title().should('eq', 'Super Cliente')
+      cy.title().should('eq', 'PB Club')
     })
    
 })
