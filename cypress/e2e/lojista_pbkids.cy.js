@@ -8,7 +8,7 @@ describe('loginLojista', () => {
     var name2 = faker.name.lastName();
 
     beforeEach(() => {
-        cy.switchBaseUrl(Cypress.config('baseUrl3'))
+        cy.switchBaseUrl(Cypress.config('baseUrl2'))
         cy.visit('/')
     })
    

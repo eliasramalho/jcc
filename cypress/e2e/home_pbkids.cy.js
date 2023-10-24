@@ -1,9 +1,11 @@
 import { faker} from '@faker-js/faker/locale/en';
 
+
 describe('home lojista', () => {
   beforeEach(()=>{
-    cy.switchBaseUrl(Cypress.config('baseUrl3'))
+    cy.switchBaseUrl(Cypress.config('baseUrl2'))
   })
+ 
   it('web deve estar online', () => {
     cy.request({
       url: '/'
@@ -18,18 +20,15 @@ describe('home lojista', () => {
   })
 
   describe('home cliente', ()=>{
-    beforeEach(()=>{
-      cy.switchBaseUrl(Cypress.config('baseUrl4'))
-    })
+    
   
     it('web online', ()=>{
       cy.request({
-        url: '/'
+        url: '/auto-atendimento'
     }).then(response =>{
         expect(response.status).to.eq(200)
     })
-      cy.visit(Cypress.config('baseUrl4'));
-      cy.visit('/')
+      cy.visit('/auto-atendimento')
       cy.wait(2000)
       cy.title().should('eq', 'PB Club')
     })

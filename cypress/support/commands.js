@@ -61,8 +61,6 @@ Cypress.Commands.add('switchBaseUrl', (baseUrl) => {
   })
 
   Cypress.Commands.add('campoCpf', ()=>{
-    //Acessar home da aplicacao
-    cy.visit('/')
     //Localiza o campo cpf
     cy.get('#cpf')
 })
@@ -70,8 +68,6 @@ Cypress.Commands.add('switchBaseUrl', (baseUrl) => {
 Cypress.Commands.add('cpfAleatorio', ()=>{
     // Gerar o cpf aleatorio usando o 'faker-br'
     const randomCpf = faker.br.cpf();
-    //Acessa pagina home da aplicacao
-    cy.visit('/')
     //Localiza o elemento 
     cy.get('#cpf')
     //Preenche o campo com um cpf aleatorio e realiza o evento de pressionar o botao enter

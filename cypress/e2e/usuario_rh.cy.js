@@ -2,6 +2,7 @@
 import faker from 'faker-br';
 
 
+
 describe('validarCampos', () => {
     const randomCpf = faker.br.cpf();
     var name = faker.name.firstName();
@@ -10,7 +11,7 @@ describe('validarCampos', () => {
     var phoneNumber = faker.phone.phoneNumber();
 
     beforeEach(() => {
-        cy.switchBaseUrl(Cypress.config('baseUrl2'))
+        cy.visit('/auto-atendimento')
     })
 
     context('usuarioLogado', () => {

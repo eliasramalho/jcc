@@ -9,9 +9,10 @@ describe('validarCampos', () => {
     var randomEmail = faker.internet.email();
     var phoneNumber = faker.phone.phoneNumber();
 
-    beforeEach(() => {
-        cy.switchBaseUrl(Cypress.config('baseUrl4'))
-    })
+    beforeEach(()=>{
+        cy.switchBaseUrl(Cypress.config('baseUrl2'))
+        cy.visit('/auto-atendimento')
+      })
 
     context('usuarioLogado', () => {
        
@@ -87,8 +88,8 @@ describe('validarCampos', () => {
         it('cpfJaCadastrado', () => {
             cy.campoCpf()
                 .type('033.185.320-53').type('{enter}')
-            cy.get('.description')
-                .should('have.text', 'Para validar seu acesso, insira o token enviado por sms e e-mail:')
+            cy.get('.title')
+                .should('be.visible')
             cy.request({
                 url: '/'
             }).then(response => {

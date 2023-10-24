@@ -158,7 +158,7 @@ describe('loginLojista', () => {
                 .type(name+' '+name2)
             cy.contains('button', 'salvar').click()
             cy.get('.go2072408551').should('be.visible')
-                .should('have.text', '❕Dados atualizados com sucessoAlgo deu errado, tente novamente mais tarde')
+                .should('have.text', '❕Dados atualizados com sucesso')
                 //name+' '+name2)
         })
 
@@ -181,7 +181,7 @@ describe('loginLojista', () => {
                 .clear().type(randomEmail)
             cy.contains('button', 'salvar').click()
             cy.get('.go3958317564').should('be.visible')
-                .should('have.text', 'Dados atualizados com sucessoAlgo deu errado, tente novamente mais tarde')
+                .should('have.text', 'Dados atualizados com sucesso')
         })
 
     })
@@ -197,7 +197,7 @@ describe('loginLojista', () => {
             .type('360.614.378-89').type('{enter}')  
             cy.contains('button', 'visualizar').click()
             cy.get('.go3958317564').should('be.visible')
-                .should('have.text', 'Você não possui crianças cadastradas.Algo deu errado, tente novamente mais tarde')
+                .should('have.text', 'Você não possui crianças cadastradas.')
         })
 
         it('validarLimiteDeCadastroMensal', () => {
@@ -226,7 +226,7 @@ describe('loginLojista', () => {
             cy.contains('button', 'visualizar').click()
             cy.get(':nth-child(3) > .container-right > .content-actions > :nth-child(2) > img').click()
             cy.get('.go3958317564').should('be.visible')
-            .should('have.text', 'Crianca não pode ser deletadaAlgo deu errado, tente novamente mais tarde')
+            .should('have.text', 'Crianca não pode ser deletada')
             
         })
 
@@ -238,7 +238,7 @@ describe('loginLojista', () => {
             cy.get(':nth-child(3) > .container-right > .content-actions > :nth-child(1) > img').click()
             cy.contains('button', 'salvar').click()
             cy.get('.go3958317564').should('be.visible')
-            .should('have.text', 'Crianca não pode ser atualizadaAlgo deu errado, tente novamente mais tarde')
+            .should('have.text', 'Crianca não pode ser atualizada')
             
         })
 
