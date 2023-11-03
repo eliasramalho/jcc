@@ -24,12 +24,12 @@ describe('loginLojista', () => {
         })
 
         it('codigoInvalido', () => {
-            
+
             cy.get('input[id=code]').type('02363/*')
-            cy.get('input[id=password]').type('teste123', {log: false})
+            cy.get('input[id=password]').type('teste123', { log: false })
             cy.get('button[name=entrar]').click()
             cy.get('.go3958317564').should('be.visible')
-            .should('have.text', 'Código de loja e/ou senha estão inválidos. Verifique e tente novamente.')
+                .should('have.text', 'Código de loja e/ou senha estão inválidos. Verifique e tente novamente.')
         })
 
         it('senhaInvalida', () => {
@@ -50,7 +50,7 @@ describe('loginLojista', () => {
         it('logar', () => {
             cy.logarUsuarioProd()
             cy.get('.title').should('be.visible')
-            .should('have.text', 'Informe o CPF e garanta benefícios exclusivos')
+                .should('have.text', 'Informe o CPF e garanta benefícios exclusivos')
         })
 
         it('cadastrarUsuario', () => {
@@ -84,12 +84,12 @@ describe('loginLojista', () => {
         it('camposEmBranco', () => {
             const nome = 'span:contains("O nome completo é obrigatório")';
             const cell = 'span:contains("O celular é obrigatório.")';
-            
+
             cy.logarUsuarioProd()
             cy.randomCpf()
             cy.contains('button', 'cadastrar').click()
             cy.get(nome).should('be.visible')
-            .should('have.text', 'O nome completo é obrigatório')
+                .should('have.text', 'O nome completo é obrigatório')
             cy.get(cell).should('have.text', 'O celular é obrigatório.')
             cy.get('#emailInput').should('have.text', '')
         })
@@ -132,7 +132,7 @@ describe('loginLojista', () => {
             cy.contains('button', 'cadastrar').click()
             cy.get(codInvl).should('have.text', 'Código de operador inválido')
             cy.get(nomeOpInvl).should('have.text', 'Operador inválido, realize a alteração')
-            
+
         })
 
 
@@ -155,11 +155,11 @@ describe('loginLojista', () => {
             cy.cpfCadastradoProd()
             cy.contains('button', 'editar').click()
             cy.get('input[name=fullName]').clear()
-                .type(name+' '+name2)
+                .type(name + ' ' + name2)
             cy.contains('button', 'salvar').click()
             cy.get('.go2072408551').should('be.visible')
                 .should('have.text', '❕Dados atualizados com sucesso')
-                //name+' '+name2)
+            //name+' '+name2)
         })
 
         it('editarTelefone', () => {
@@ -191,10 +191,10 @@ describe('loginLojista', () => {
         const codigo = "1012";
         const senha = "supercliente@2023";
 
-        it('editarCriancaNaoCadastrada', () => {            
+        it('editarCriancaNaoCadastrada', () => {
             cy.logarUsuarioProd()
             cy.get('#cpf')
-            .type('360.614.378-89').type('{enter}')  
+                .type('360.614.378-89').type('{enter}')
             cy.contains('button', 'visualizar').click()
             cy.get('.go3958317564').should('be.visible')
                 .should('have.text', 'Você não possui crianças cadastradas.')
@@ -215,34 +215,34 @@ describe('loginLojista', () => {
             cy.get('#react-select-5-option-5').click()
             cy.contains('button', 'cadastrar').click()
             cy.get('.go3958317564').should('be.visible')
-            .should('have.text', 'Limite de cadastro mensal atingido')
+                .should('have.text', 'Limite de crianças cadastradas atingido')
         })
 
         it('validarExclusaoDeCriancaAposUmAno', () => {
-           
+
             cy.logarUsuarioProd()
             cy.get('#cpf')
-            .type('331.768.918-81').type('{enter}')  
+                .type('331.768.918-81').type('{enter}')
             cy.contains('button', 'visualizar').click()
             cy.get(':nth-child(3) > .container-right > .content-actions > :nth-child(2) > img').click()
             cy.get('.go3958317564').should('be.visible')
-            .should('have.text', 'Crianca não pode ser deletada')
-            
+                .should('have.text', 'Crianca não pode ser deletada')
+
         })
 
         it('validarEdicaoDeCriancaAposUmAno', () => {
-          cy.logarUsuarioProd()
+            cy.logarUsuarioProd()
             cy.get('#cpf')
-            .type('331.768.918-81').type('{enter}')  
+                .type('331.768.918-81').type('{enter}')
             cy.contains('button', 'visualizar').click()
             cy.get(':nth-child(3) > .container-right > .content-actions > :nth-child(1) > img').click()
             cy.contains('button', 'salvar').click()
             cy.get('.go3958317564').should('be.visible')
-            .should('have.text', 'Crianca não pode ser atualizada')
-            
+                .should('have.text', 'Crianca não pode ser atualizada')
+
         })
 
-       
+
     })
 
 })

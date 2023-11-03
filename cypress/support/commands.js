@@ -74,12 +74,23 @@ Cypress.Commands.add('cpfAleatorio', ()=>{
     .type(randomCpf).type('{enter}')
 })
 
-//Comando para logar usuario PRDO
+//Comando para logar usuario PRDO rihappy
 Cypress.Commands.add('logarUsuarioProd', ()=>{
     //100500 senha 123456@!
     const codigo = "1112" ;
     const senha = "supercliente@2023";
     cy.visit('/')
+    //Localiza e preenche o campo
+    cy.get('input[id=code]').type(codigo)
+    cy.get('input[id=password]').type(senha)
+    cy.get('button[name=entrar]').click()
+})
+
+//logar lojista PROD Pbkids
+Cypress.Commands.add('logarUsuarioProdPB', ()=>{
+    //100500 senha 123456@!
+    const codigo = "9006" ;
+    const senha = "supercliente@2023";
     //Localiza e preenche o campo
     cy.get('input[id=code]').type(codigo)
     cy.get('input[id=password]').type(senha)

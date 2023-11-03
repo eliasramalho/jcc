@@ -9,13 +9,13 @@ describe('validarCampos', () => {
     var randomEmail = faker.internet.email();
     var phoneNumber = faker.phone.phoneNumber();
 
-    beforeEach(()=>{
+    beforeEach(() => {
         cy.switchBaseUrl(Cypress.config('baseUrl2'))
         cy.visit('/auto-atendimento')
-      })
+    })
 
     context('usuarioLogado', () => {
-       
+
         it('camposEmBranco', () => {
             const msgNomeObgt = 'span:contains("O nome completo é obrigatório")';
             const msgCelObgt = 'span:contains("O celular é obrigatório.")';
@@ -65,10 +65,10 @@ describe('validarCampos', () => {
             cy.preencherCampo('input[name="email"]', randomEmail)
             cy.get('button[name=cadastrar]').should('be.visible').click()
             cy.get(msgEsperada).should('be.visible')
-              .should('have.text', msgDesejada)
+                .should('have.text', msgDesejada)
         })
 
-        it('EmailJaCadastrado', ()=>{
+        it('EmailJaCadastrado', () => {
             cy.cpfAleatorio()
             cy.wait(1000)
             cy.preencherCampo('input[name="fullName"]', name + ' ' + name2)
@@ -76,7 +76,7 @@ describe('validarCampos', () => {
             cy.preencherCampo('input[name="email"]', 'lofaga3282@bnovel.com')
             cy.get('button[name=cadastrar]').click()
             cy.get('.go3958317564').should('be.visible')
-            .should('have.text', 'Email já registrado')
+                .should('have.text', 'Email já registrado')
         })
 
     })
@@ -115,15 +115,15 @@ describe('validarCampos', () => {
 
         })
 
-        it('cadastarUsuario', ()=> {
+        it('cadastarUsuario', () => {
             cy.cpfAleatorio()
             cy.preencherCampo('input[name="fullName"]', name + ' ' + name2)
             cy.preencherCampo('input[name="cellPhone"]', '11984325986')
-            cy.preencherCampo('input[name="email"]', name+randomEmail)
+            cy.preencherCampo('input[name="email"]', name + randomEmail)
             cy.get('button[name=cadastrar]').click()
             cy.wait(1000)
             cy.get('p.title').should('be.visible')
-             .should('have.text',  'Falta apenas um passo para confirmar o cadastro ;)')
+                .should('have.text', 'Falta apenas um passo para confirmar o cadastro ;)')
         })
 
 

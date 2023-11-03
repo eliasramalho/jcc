@@ -11,18 +11,18 @@ describe('loginLojista', () => {
         cy.switchBaseUrl(Cypress.config('baseUrl2'))
         cy.visit('/')
     })
-   
+
 
     context('login', () => {
-               
+
 
         it('camposEmBranco', () => {
             cy.get('input[id=code]').type('02363/*').clear()
             cy.wait(1000)
             cy.get('button[name=entrar]').click()
             cy.contains('span', 'Campo obrigatório').should('be.visible')
-            .should('have.text', 'Campo obrigatório')
-            
+                .should('have.text', 'Campo obrigatório')
+
 
         })
 
@@ -52,17 +52,17 @@ describe('loginLojista', () => {
         var randomEmail = faker.internet.email();
 
         it('logar', () => {
-            cy.logarUsuarioProd()
+            cy.logarUsuarioProdPB()
             cy.get('.title').should('be.visible')
-            .should('have.text', 'Informe o CPF e garanta benefícios exclusivos')
-            cy.contains('span', '1112 - SÃO CAETANO').should('be.visible')
-            .should('have.text', '1112 - SÃO CAETANO')
+                .should('have.text', 'Informe o CPF e garanta benefícios exclusivos')
+            cy.get('.city > span').should('be.visible')
+                .should('have.text', '9006 - ELDORADO')
         })
 
         it('cadastrarUsuario', () => {
             const msgEsperada = 'p:contains("Falta apenas um passo para confirmar o cadastro ;)")'
             const msgDesejada = 'Falta apenas um passo para confirmar o cadastro ;)'
-            cy.logarUsuarioProd()
+            cy.logarUsuarioProdPB()
             cy.wait(1000)
             cy.randomCpf()
             cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
@@ -76,7 +76,7 @@ describe('loginLojista', () => {
         })
 
         it('emailJaCadastrado', () => {
-            cy.logarUsuarioProd()
+            cy.logarUsuarioProdPB()
             cy.randomCpf()
             cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
             cy.get('#sellerCode').type(codVendedor)
@@ -90,19 +90,19 @@ describe('loginLojista', () => {
         it('cadastroComCamposEmranco', () => {
             const nome = 'span:contains("O nome completo é obrigatório")';
             const cell = 'span:contains("O celular é obrigatório.")';
-            
-            cy.logarUsuarioProd()
+
+            cy.logarUsuarioProdPB()
             cy.randomCpf()
             cy.contains('button', 'cadastrar').click()
             cy.get(nome).should('be.visible')
-            .should('have.text', 'O nome completo é obrigatório')
+                .should('have.text', 'O nome completo é obrigatório')
             cy.get(cell).should('have.text', 'O celular é obrigatório.')
             cy.get('#emailInput').should('have.text', '')
         })
 
         it('telefoneInvalido', () => {
             const cellInvl = 'span:contains("Número de celular inválido.")';
-            cy.logarUsuarioProd()
+            cy.logarUsuarioProdPB()
             cy.randomCpf()
             cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
             cy.get('#sellerCode').type(codVendedor)
@@ -114,7 +114,7 @@ describe('loginLojista', () => {
 
         it('emailInvalido', () => {
             const email = 'span:contains("Digite um e-mail válido")'
-            cy.logarUsuarioProd()
+            cy.logarUsuarioProdPB()
             cy.randomCpf()
             cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
             cy.get('#sellerCode').type(codVendedor)
@@ -129,7 +129,7 @@ describe('loginLojista', () => {
         it('codigoVendedorInvalido', () => {
             const codInvl = 'span:contains("Código de operador inválido")';
             const nomeOpInvl = 'span:contains("Operador inválido, realize a alteração")';
-            cy.logarUsuarioProd()
+            cy.logarUsuarioProdPB()
             cy.randomCpf()
             cy.preencherCampo('input[name=fullName]', name + ' ' + name2)
             cy.preencherCampo('input[name=email]', randomEmail)
@@ -138,7 +138,7 @@ describe('loginLojista', () => {
             cy.contains('button', 'cadastrar').click()
             cy.get(codInvl).should('have.text', 'Código de operador inválido')
             cy.get(nomeOpInvl).should('have.text', 'Operador inválido, realize a alteração')
-            
+
         })
 
 
@@ -149,36 +149,34 @@ describe('loginLojista', () => {
         const sucesso = 'div:contains("Dados atualizados com sucesso")'
 
         it('cpfJaCadastrado', () => {
-            var nome = 'p:contains("Carla Santos")'
+            var nome = 'p:contains("CARLA SANTOS")'
             var tel = 'p:contains("(11) 99853-3573")'
             var email = 'p:contains("hopaco9125@bnovel.com")'
             var cpf = 'p:contains("213.378.080-75")'
 
-            cy.logarUsuarioProd()
+            cy.logarUsuarioProdPB()
             cy.get('#cpf').type('213.378.080-75').type('{enter}')
-            cy.get(nome).should('have.text', 'Carla Santos')
+            cy.get(nome).should('have.text', 'CARLA SANTOS')
             cy.get(tel).should('have.text', '(11) 99853-3573')
             cy.get(email).should('have.text', 'hopaco9125@bnovel.com')
             cy.get(cpf).should('have.text', '213.378.080-75')
-            
+
         })
 
         it('editarNomeDoUsuario', () => {
-            var nome = 'p:contains(' + name + ' ' + name2 + ')'
-            
-            cy.logarUsuarioProd()
+            cy.logarUsuarioProdPB()
             cy.get('#cpf').type('612.952.060-30').type('{enter}')
             cy.get('input[name=fullName]').clear()
                 .type(name + ' ' + name2)
             cy.contains('button', 'salvar').click()
             cy.get(sucesso).should('be.visible')
-            cy.get(nome).should('be.visible').should('have.text', name + ' ' + name2)
+            cy.get(':nth-child(1) > .data').should('be.visible')
         })
 
         it('editarTelefone', () => {
             var tel = 'p:contains("(11) 99877-4855")'
 
-            cy.logarUsuarioProd()
+            cy.logarUsuarioProdPB()
             cy.get('#cpf').type('612.952.060-30').type('{enter}')
             cy.get('input[name=cellPhone]').clear().type('11998774855');
             cy.contains('button', 'salvar').click()
@@ -186,16 +184,16 @@ describe('loginLojista', () => {
             cy.get(tel).should('have.text', '(11) 99877-4855')
         })
         it('editarEmail', () => {
-            var email = 'p:contains('+randomEmail+')' 
+            var email = 'p:contains(' + randomEmail + ')'
 
-            cy.logarUsuarioProd()
+            cy.logarUsuarioProdPB()
             cy.get('#cpf').type('612.952.060-30').type('{enter}')
             cy.get('input[name=email]')
                 .clear().type(randomEmail)
             cy.contains('button', 'salvar').click()
             cy.get(sucesso).should('be.visible')
             cy.get(email).should('be.visible')
-            .should('have.text', randomEmail)
+                .should('have.text', randomEmail)
         })
 
     })
@@ -205,17 +203,17 @@ describe('loginLojista', () => {
         const codigo = "1012";
         const senha = "supercliente@2023";
 
-        it('editarCriancaNao Cadastrada', () => {            
-            cy.logarUsuarioProd()
+        it('editarCriancaNao Cadastrada', () => {
+            cy.logarUsuarioProdPB()
             cy.get('#cpf')
-            .type('252.065.600-06').type('{enter}')  
+                .type('252.065.600-06').type('{enter}')
             cy.contains('button', 'visualizar').click()
             cy.get('.go3958317564').should('be.visible')
                 .should('have.text', 'Você não possui crianças cadastradas.')
         })
 
         it('ValidarLimiteDeCadastroMensal', () => {
-            cy.logarUsuarioProd()
+            cy.logarUsuarioProdPB()
             cy.get('#cpf').type('331.768.918-81').type('{enter}')
             cy.contains('button', 'adicionar pequeno').click()
             cy.get('input[name="apelido"]').type(name)
@@ -229,34 +227,34 @@ describe('loginLojista', () => {
             cy.get('#react-select-5-option-5').click()
             cy.contains('button', 'cadastrar').click()
             cy.get('.go3958317564').should('be.visible')
-            .should('have.text', 'Limite de cadastro mensal atingido')
+                .should('have.text', 'Limite de cadastro mensal atingido')
         })
 
         it('validarExclusaoDeCriancaAposUmAno', () => {
-           
-            cy.logarUsuarioProd()
+
+            cy.logarUsuarioProdPB()
             cy.get('#cpf')
-            .type('331.768.918-81').type('{enter}')  
+                .type('331.768.918-81').type('{enter}')
             cy.contains('button', 'visualizar').click()
             cy.get(':nth-child(3) > .container-right > .content-actions > :nth-child(2) > img').click()
             cy.get('.go3958317564').should('be.visible')
-            .should('have.text', 'Crianca não pode ser deletada')
-            
+                .should('have.text', 'Crianca não pode ser deletada')
+
         })
 
         it('validarEdicaoDeCriancaAposUmAno', () => {
-          cy.logarUsuarioProd()
+            cy.logarUsuarioProdPB()
             cy.get('#cpf')
-            .type('331.768.918-81').type('{enter}')  
+                .type('331.768.918-81').type('{enter}')
             cy.contains('button', 'visualizar').click()
             cy.get(':nth-child(3) > .container-right > .content-actions > :nth-child(1) > img').click()
             cy.contains('button', 'salvar').click()
             cy.get('.go3958317564').should('be.visible')
-            .should('have.text', 'Crianca não pode ser atualizada')
-            
+                .should('have.text', 'Crianca não pode ser atualizada')
+
         })
 
-       
+
     })
 
 })

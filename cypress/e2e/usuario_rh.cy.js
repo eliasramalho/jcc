@@ -15,7 +15,7 @@ describe('validarCampos', () => {
     })
 
     context('usuarioLogado', () => {
-       
+
         it('camposEmBranco', () => {
             const msgNomeObgt = 'span:contains("O nome completo é obrigatório")';
             const msgCelObgt = 'span:contains("O celular é obrigatório.")';
@@ -65,10 +65,10 @@ describe('validarCampos', () => {
             cy.preencherCampo('input[name="email"]', randomEmail)
             cy.get('button[name=cadastrar]').should('be.visible').click()
             cy.get(msgEsperada).should('be.visible')
-              .should('have.text', msgDesejada)
+                .should('have.text', msgDesejada)
         })
 
-        it('emailJaCadastrado', ()=>{
+        it('emailJaCadastrado', () => {
             cy.cpfAleatorio()
             cy.wait(1000)
             cy.preencherCampo('input[name="fullName"]', name + ' ' + name2)
@@ -76,7 +76,7 @@ describe('validarCampos', () => {
             cy.preencherCampo('input[name="email"]', 'bocodi7193@wlmycn.com')
             cy.get('button[name=cadastrar]').click()
             cy.get('.go3958317564').should('be.visible')
-            .should('have.text', 'Email já registrado')
+                .should('have.text', 'Email já registrado')
         })
 
     })
@@ -116,7 +116,7 @@ describe('validarCampos', () => {
 
         })
 
-        it('login', ()=> {
+        it('login', () => {
             const msgDesejada = 'p:contains("Ainda não temos o seu cadastro, mas você pode fazê-lo agora mesmo.")' +
                 ':contains("É grátis, rápido e fácil!")';
             cy.cpfAleatorio()
